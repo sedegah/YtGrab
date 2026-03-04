@@ -21,6 +21,10 @@ func Execute() error {
 	root := flag.NewFlagSet("yt-grab", flag.ContinueOnError)
 	configPath := root.String("config", "", "Path to config file (default: ~/.ytgrab.yaml)")
 	if err := root.Parse(os.Args[1:]); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			printUsage()
+			return nil
+		}
 		return err
 	}
 	args := root.Args()

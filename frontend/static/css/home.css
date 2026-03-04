@@ -72,6 +72,34 @@ h1 {
   gap: 10px;
 }
 
+.download-form {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.download-form label {
+  color: #d8deea;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.download-form input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+.download-form input:focus {
+  outline: none;
+  border-color: rgba(119, 247, 209, 0.55);
+  box-shadow: 0 0 0 2px rgba(119, 247, 209, 0.15);
+}
+
 .btn {
   text-decoration: none;
   color: #041318;
@@ -81,6 +109,8 @@ h1 {
   font-weight: 700;
   font-size: 14px;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  width: fit-content;
 }
 
 .btn-secondary {
@@ -106,6 +136,50 @@ h1 {
 
 .commands p {
   margin: 6px 0;
+}
+
+.status {
+  margin-top: 14px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid transparent;
+}
+
+.status-error {
+  color: #ffd8d8;
+  background: rgba(180, 42, 42, 0.18);
+  border-color: rgba(255, 110, 110, 0.35);
+}
+
+.status-success {
+  color: #d8ffe9;
+  background: rgba(42, 180, 111, 0.16);
+  border-color: rgba(119, 247, 209, 0.32);
+}
+
+.result-block {
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.result-block h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.result-block pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #d8deea;
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .grid {
@@ -145,6 +219,15 @@ h1 {
   gap: 10px;
   color: #8d95a6;
   font-size: 13px;
+}
+
+.meta a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.meta a:hover {
+  text-decoration: underline;
 }
 
 code {

@@ -10,44 +10,56 @@
 <body>
   <main class="shell">
     <section class="hero">
-      <div class="badge">Django Frontend</div>
-      <h1>yt-grab: Simple Video & Audio Downloads</h1>
+      <div class="badge">Django Frontend Downloader</div>
+      <h1>Paste Link and Download</h1>
       <p class="lead">
-        Download with a clean command flow: paste a link, choose audio or video, and set quality quickly.
+        Paste only the video link. If you want audio, add <code>--audio</code> after the link.
       </p>
 
-      <div class="actions">
-        <a href="https://github.com/sedegah/YtGrab" class="btn" target="_blank" rel="noopener noreferrer">Open Repository</a>
-        <a href="#quick-commands" class="btn-secondary">Quick Commands</a>
-      </div>
+      <form method="post" class="download-form">
+        {% csrf_token %}
+        <label for="download_input">Video link (optional <code>--audio</code>)</label>
+        <input
+          id="download_input"
+          name="download_input"
+          type="text"
+          placeholder="https://youtu.be/8ekJMC8OtGU --audio"
+          value="{{ input_value }}"
+          required
+        />
+        <button type="submit" class="btn">Download</button>
+      </form>
 
       <div class="commands" id="quick-commands">
-        <p><strong>Video:</strong> <code>yt-grab https://youtu.be/8ekJMC8OtGU --quality 1080p</code></p>
-        <p><strong>Audio:</strong> <code>yt-grab https://youtu.be/8ekJMC8OtGU --audio</code></p>
+        <p><strong>Video input:</strong> <code>https://youtu.be/8ekJMC8OtGU</code></p>
+        <p><strong>Audio input:</strong> <code>https://youtu.be/8ekJMC8OtGU --audio</code></p>
       </div>
 
-      <div class="grid">
-        <article class="card">
-          <h3>Direct Mode</h3>
-          <p>Run downloads directly as <code>yt-grab &lt;url&gt;</code> without learning subcommands.</p>
-        </article>
-        <article class="card">
-          <h3>Audio Output</h3>
-          <p>Use <code>--audio</code> and optional <code>--audio-format</code> for mp3, aac, or wav.</p>
-        </article>
-        <article class="card">
-          <h3>Quality Flags</h3>
-          <p>Set <code>--quality best|worst|720p|1080p</code> for quick control over output quality.</p>
-        </article>
-        <article class="card">
-          <h3>Cross Platform</h3>
-          <p>Works on Linux, macOS, and Windows PowerShell with clear command examples.</p>
-        </article>
+      {% if error %}
+      <div class="status status-error">{{ error }}</div>
+      {% endif %}
+
+      {% if success %}
+      <div class="status status-success">Download command completed successfully.</div>
+      {% endif %}
+
+      {% if command %}
+      <div class="result-block">
+        <h3>Executed command</h3>
+        <pre><code>{{ command }}</code></pre>
       </div>
+      {% endif %}
+
+      {% if output %}
+      <div class="result-block">
+        <h3>Output</h3>
+        <pre>{{ output }}</pre>
+      </div>
+      {% endif %}
 
       <div class="meta">
         <span>Status: ✅ Ready</span>
-        <span>Built for YtGrab frontend</span>
+        <span>Built for YtGrab frontend • <a href="https://github.com/sedegah/YtGrab" target="_blank" rel="noopener noreferrer">Repository</a></span>
       </div>
     </section>
   </main>

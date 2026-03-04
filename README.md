@@ -27,6 +27,10 @@ go build -o yt-grab ./cmd/yt-grab
 ## Django Frontend
 
 A Django landing page is available in [frontend/](frontend/) and styled to match the referenced hero-card design.
+It also includes a working download form:
+
+- Paste just the link for video download
+- Paste `link --audio` to download audio
 
 ### Run locally
 
@@ -58,6 +62,12 @@ Quick installer (build + PATH setup):
 .\install.ps1
 ```
 
+Install with dependencies (`yt-dlp` and `ffmpeg`) using winget:
+
+```powershell
+.\install.ps1 -InstallDeps
+```
+
 Optional custom install directory:
 
 ```powershell
@@ -74,6 +84,13 @@ Example:
 
 ```powershell
 .\yt-grab.exe https://youtu.be/8ekJMC8OtGU --output "$env:USERPROFILE\Downloads\YtGrab"
+```
+
+If dependencies are missing:
+
+```powershell
+winget install yt-dlp.yt-dlp
+winget install Gyan.FFmpeg
 ```
 
 ## Usage

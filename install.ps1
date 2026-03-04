@@ -1,5 +1,6 @@
 param(
-    [string]$InstallDir = "$env:USERPROFILE\go\bin"
+    [string]$InstallDir = "$env:USERPROFILE\go\bin",
+    [switch]$InstallDeps
 )
 
 $ErrorActionPreference = 'Stop'
@@ -7,6 +8,44 @@ $ErrorActionPreference = 'Stop'
 function Write-Step {
     param([string]$Message)
     Write-Host "[yt-grab] $Message" -ForegroundColor Cyan
+}
+
+function Write-Warn {
+    param([string]$Message)
+    Write-Host "[yt-grab] $Message" -ForegroundColor Yellow
+}
+
+function Ensure-WingetPackage {
+    param(
+        [string]$CommandName,
+        [string]$PackageId,
+        [string]$FriendlyName
+    )
+
+    if (Get-Command $CommandName -ErrorAction SilentlyContinue) {
+        Write-Step "$FriendlyName detected"
+        return
+    }
+
+    if (-not $InstallDeps) {
+        Write-Warn "$FriendlyName not found in PATH"
+        Write-Warn "Run: winget install $PackageId"
+        return
+    }
+
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+        Write-Warn "winget not found. Install $FriendlyName manually, then restart PowerShell."
+        return
+    }
+
+    Write-Step "Installing $FriendlyName via winget"
+    winget install --id $PackageId --accept-source-agreements --accept-package-agreements
+
+    if (Get-Command $CommandName -ErrorAction SilentlyContinue) {
+        Write-Step "$FriendlyName installed successfully"
+    } else {
+        Write-Warn "$FriendlyName installation finished but command still not found in current shell. Restart PowerShell."
+    }
 }
 
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -57,3 +96,13 @@ Write-Host ""
 Write-Host "Installation complete." -ForegroundColor Green
 Write-Host "If this is a new PATH entry, restart PowerShell before using 'yt-grab'."
 Write-Host "Then run: yt-grab --help"
+Write-Host ""
+
+Ensure-WingetPackage -CommandName "yt-dlp" -PackageId "yt-dlp.yt-dlp" -FriendlyName "yt-dlp"
+Ensure-WingetPackage -CommandName "ffmpeg" -PackageId "Gyan.FFmpeg" -FriendlyName "ffmpeg"
+
+Write-Host ""
+Write-Host "Verification:" -ForegroundColor Cyan
+Write-Host "  yt-grab doctor"
+Write-Host "  yt-grab https://youtu.be/8ekJMC8OtGU"
+Write-Host "  yt-grab https://youtu.be/8ekJMC8OtGU --audio"
