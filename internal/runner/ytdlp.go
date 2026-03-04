@@ -21,7 +21,14 @@ type Request struct {
 }
 
 func BuildArgs(req Request) []string {
-	args := []string{"--newline", "--no-part", "-o", filepath.Join(req.OutputDir, "%(title)s.%(ext)s")}
+	args := []string{
+		"--no-part",
+		"--progress",
+		"--progress-template",
+		"download:%(progress._percent_str)s at %(progress._speed_str)s ETA %(progress._eta_str)s",
+		"-o",
+		filepath.Join(req.OutputDir, "%(title)s.%(ext)s"),
+	}
 
 	if req.NoPlaylist {
 		args = append(args, "--no-playlist")
