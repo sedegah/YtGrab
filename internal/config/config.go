@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"strings"
 )
@@ -19,8 +20,12 @@ type Config struct {
 
 func Default() Config {
 	home, _ := os.UserHomeDir()
+	defaultOutputDir := filepath.Join(home, "Downloads")
+	if runtime.GOOS == "windows" {
+		defaultOutputDir = filepath.Join(home, "Downloads", "YtGrab")
+	}
 	return Config{
-		OutputDir:     filepath.Join(home, "Downloads"),
+		OutputDir:     defaultOutputDir,
 		Format:        "bestvideo+bestaudio/best",
 		AudioFormat:   "mp3",
 		MaxResolution: 0,
@@ -103,6 +108,10 @@ func expandHome(v string) string {
 	if strings.HasPrefix(v, "~/") {
 		h, _ := os.UserHomeDir()
 		return filepath.Join(h, strings.TrimPrefix(v, "~/"))
+	}
+	if strings.HasPrefix(v, "~\\") {
+		h, _ := os.UserHomeDir()
+		return filepath.Join(h, strings.TrimPrefix(v, "~\\"))
 	}
 	return v
 }

@@ -1,0 +1,52 @@
+# --- Go ---
+/bin/
+*.test
+*.out
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+coverage.out
+cover.out
+*.coverprofile
+*.prof
+
+# Local build artifacts
+/yt-grab
+/yt-grab.exe
+
+# --- Python / Django ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Virtual environments
+.venv/
+venv/
+env/
+frontend/.venv/
+
+# Django local/runtime files
+db.sqlite3
+frontend/db.sqlite3
+frontend/staticfiles/
+
+# --- Editor / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
+logs/

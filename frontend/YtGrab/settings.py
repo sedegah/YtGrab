@@ -27,7 +27,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "frontend_project.urls"
+ROOT_URLCONF = "YtGrab.urls"
 
 TEMPLATES = [
     {
@@ -44,7 +44,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "frontend_project.wsgi.application"
+WSGI_APPLICATION = "YtGrab.wsgi.application"
 
 DATABASES = {
     "default": {

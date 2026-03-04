@@ -52,6 +52,30 @@ go build -o yt-grab.exe ./cmd/yt-grab
 
 To use `yt-grab` directly without `\.\`, install it to a folder in `PATH` (for example `$env:USERPROFILE\go\bin`).
 
+Quick installer (build + PATH setup):
+
+```powershell
+.\install.ps1
+```
+
+Optional custom install directory:
+
+```powershell
+.\install.ps1 -InstallDir "$env:USERPROFILE\bin"
+```
+
+Windows default download folder is:
+
+```text
+C:\Users\<YourUser>\Downloads\YtGrab
+```
+
+Example:
+
+```powershell
+.\yt-grab.exe https://youtu.be/8ekJMC8OtGU --output "$env:USERPROFILE\Downloads\YtGrab"
+```
+
 ## Usage
 
 ```bash
@@ -94,6 +118,16 @@ Example:
 
 ```yaml
 output_dir: ~/Downloads
+format: bestvideo+bestaudio/best
+audio_format: mp3
+max_resolution: 1080
+yt_dlp_path: ""
+```
+
+Windows example:
+
+```yaml
+output_dir: C:\Users\YourUser\Downloads\YtGrab
 format: bestvideo+bestaudio/best
 audio_format: mp3
 max_resolution: 1080
