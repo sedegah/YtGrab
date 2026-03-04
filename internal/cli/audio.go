@@ -1,0 +1,32 @@
+package cli
+
+import (
+	"errors"
+	"flag"
+	"strings"
+
+	"yt-grab/internal/config"
+	"yt-grab/internal/runner"
+)
+
+func runAudio(cfg config.Config, args []string) error {
+	fs := flag.NewFlagSet("audio", flag.ContinueOnError)
+	output := fs.String("output", "", "Output directory")
+	format := fs.String("format", "", "Audio format: mp3|aac|wav")
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	rest := fs.Args()
+	if len(rest) != 1 {
+		return errors.New("usage: yt-grab audio <url>")
+	}
+	url := rest[0]
+	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
+		return errors.New("url must start with http:// or https://")
+	}
+	f := choose(*format, cfg.AudioFormat)
+	if f != "mp3" && f != "aac" && f != "wav" {
+		return errors.New("audio format must be one of: mp3, aac, wav")
+	}
+	return runner.Run(runner.Request{URL: url, OutputDir: choose(*output, cfg.OutputDir), AudioOnly: true, AudioFormat: f, YtDLPPath: cfg.YtDLPPath, NoPlaylist: true})
+}
