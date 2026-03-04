@@ -20,6 +20,7 @@ func Execute() error {
 
 	root := flag.NewFlagSet("yt-grab", flag.ContinueOnError)
 	configPath := root.String("config", "", "Path to config file (default: ~/.ytgrab.yaml)")
+	plainOutput := root.Bool("plain-output", false, "Use raw yt-dlp output instead of compact progress bar")
 	if err := root.Parse(os.Args[1:]); err != nil {
 		if errors.Is(err, flag.ErrHelp) {
 			printUsage()
@@ -39,16 +40,16 @@ func Execute() error {
 	}
 
 	if isURL(args[0]) {
-		return runDirect(cfg, args)
+		return runDirect(cfg, args, *plainOutput)
 	}
 
 	switch args[0] {
 	case "grab":
-		return runGrab(cfg, args[1:])
+		return runGrab(cfg, args[1:], *plainOutput)
 	case "audio":
-		return runAudio(cfg, args[1:])
+		return runAudio(cfg, args[1:], *plainOutput)
 	case "playlist":
-		return runPlaylist(cfg, args[1:])
+		return runPlaylist(cfg, args[1:], *plainOutput)
 	case "config":
 		return runConfig(cfg, args[1:])
 	case "doctor":
@@ -66,7 +67,7 @@ func Execute() error {
 
 func printUsage() {
 	fmt.Println("yt-grab - A Go-based media downloader and automation CLI")
-	fmt.Println("\nQuick usage:\n  yt-grab [--config path] <url> [--audio] [--quality best|worst|720p|1080p] [--output DIR]")
+	fmt.Println("\nQuick usage:\n  yt-grab [--config path] [--plain-output] <url> [--audio] [--quality best|worst|720p|1080p] [--output DIR]")
 	fmt.Println("\nCommands:\n  grab      Download a single video\n  audio     Extract audio only\n  playlist  Download playlist\n  config    Manage config (init|view)\n  doctor    Check yt-dlp and ffmpeg\n  version   Print version")
 }
 

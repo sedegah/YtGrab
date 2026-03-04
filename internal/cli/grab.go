@@ -9,12 +9,13 @@ import (
 	"yt-grab/internal/runner"
 )
 
-func runGrab(cfg config.Config, args []string) error {
+func runGrab(cfg config.Config, args []string, plainOutput bool) error {
 	fs := flag.NewFlagSet("grab", flag.ContinueOnError)
 	output := fs.String("output", "", "Output directory")
 	format := fs.String("format", "", "yt-dlp format selector")
 	maxRes := fs.Int("max-res", 0, "Maximum video resolution height")
 	quality := fs.String("quality", "", "Video quality: best|worst|720p|1080p")
+	plain := fs.Bool("plain-output", plainOutput, "Use raw yt-dlp output instead of compact progress bar")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
@@ -44,7 +45,7 @@ func runGrab(cfg config.Config, args []string) error {
 			selectedMaxRes = qMaxRes
 		}
 	}
-	return runner.Run(runner.Request{URL: url, OutputDir: choose(*output, cfg.OutputDir), Format: selectedFormat, MaxResolution: selectedMaxRes, YtDLPPath: cfg.YtDLPPath, NoPlaylist: true})
+	return runner.Run(runner.Request{URL: url, OutputDir: choose(*output, cfg.OutputDir), Format: selectedFormat, PlainOutput: *plain, MaxResolution: selectedMaxRes, YtDLPPath: cfg.YtDLPPath, NoPlaylist: true})
 }
 
 func choose(v, fallback string) string {

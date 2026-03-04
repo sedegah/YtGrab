@@ -96,7 +96,7 @@ winget install Gyan.FFmpeg
 ## Usage
 
 ```bash
-yt-grab [--config ~/.ytgrab.yaml] <url> [--audio] [--quality best|worst|720p|1080p] [--output DIR]
+yt-grab [--config ~/.ytgrab.yaml] [--plain-output] <url> [--audio] [--quality best|worst|720p|1080p] [--output DIR]
 ```
 
 Also supported:
@@ -111,6 +111,7 @@ yt-grab [--config ~/.ytgrab.yaml] <command> [flags]
 - `yt-grab https://youtu.be/8ekJMC8OtGU --audio`
 - `yt-grab https://youtu.be/8ekJMC8OtGU --quality 1080p`
 - `yt-grab https://youtu.be/8ekJMC8OtGU --quality best --output ~/Downloads`
+- `yt-grab --plain-output https://youtu.be/8ekJMC8OtGU`
 
 ### Commands
 

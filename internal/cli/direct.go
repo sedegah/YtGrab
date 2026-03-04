@@ -10,7 +10,7 @@ import (
 	"yt-grab/internal/runner"
 )
 
-func runDirect(cfg config.Config, args []string) error {
+func runDirect(cfg config.Config, args []string, plainOutput bool) error {
 	if len(args) == 0 {
 		return errors.New("usage: yt-grab <url> [--audio] [--quality best|worst|720p|1080p]")
 	}
@@ -27,12 +27,15 @@ func runDirect(cfg config.Config, args []string) error {
 	maxRes := cfg.MaxResolution
 	quality := ""
 	formatSet := false
+	plain := plainOutput
 
 	for i := 1; i < len(args); i++ {
 		arg := args[i]
 		switch arg {
 		case "--audio":
 			audioOnly = true
+		case "--plain-output":
+			plain = true
 		case "--output", "-o":
 			if i+1 >= len(args) {
 				return fmt.Errorf("missing value for %s", arg)
@@ -103,6 +106,7 @@ func runDirect(cfg config.Config, args []string) error {
 		Format:        format,
 		AudioOnly:     audioOnly,
 		AudioFormat:   audioFormat,
+		PlainOutput:   plain,
 		MaxResolution: maxRes,
 		YtDLPPath:     cfg.YtDLPPath,
 		NoPlaylist:    true,

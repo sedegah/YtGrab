@@ -9,10 +9,11 @@ import (
 	"yt-grab/internal/runner"
 )
 
-func runPlaylist(cfg config.Config, args []string) error {
+func runPlaylist(cfg config.Config, args []string, plainOutput bool) error {
 	fs := flag.NewFlagSet("playlist", flag.ContinueOnError)
 	output := fs.String("output", "", "Output directory")
 	flat := fs.Bool("flat", false, "Use --flat-playlist metadata mode")
+	plain := fs.Bool("plain-output", plainOutput, "Use raw yt-dlp output instead of compact progress bar")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
@@ -24,5 +25,5 @@ func runPlaylist(cfg config.Config, args []string) error {
 	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
 		return errors.New("url must start with http:// or https://")
 	}
-	return runner.Run(runner.Request{URL: url, OutputDir: choose(*output, cfg.OutputDir), Format: cfg.Format, FlatPlaylist: *flat, YtDLPPath: cfg.YtDLPPath})
+	return runner.Run(runner.Request{URL: url, OutputDir: choose(*output, cfg.OutputDir), Format: cfg.Format, PlainOutput: *plain, FlatPlaylist: *flat, YtDLPPath: cfg.YtDLPPath})
 }
