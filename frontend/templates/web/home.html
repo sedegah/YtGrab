@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>yt-grab | Friendly YouTube Downloader</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="badge">Django Frontend</div>
+      <h1>yt-grab: Simple Video & Audio Downloads</h1>
+      <p class="lead">
+        Download with a clean command flow: paste a link, choose audio or video, and set quality quickly.
+      </p>
+
+      <div class="actions">
+        <a href="https://github.com/sedegah/YtGrab" class="btn" target="_blank" rel="noopener noreferrer">Open Repository</a>
+        <a href="#quick-commands" class="btn-secondary">Quick Commands</a>
+      </div>
+
+      <div class="commands" id="quick-commands">
+        <p><strong>Video:</strong> <code>yt-grab https://youtu.be/8ekJMC8OtGU --quality 1080p</code></p>
+        <p><strong>Audio:</strong> <code>yt-grab https://youtu.be/8ekJMC8OtGU --audio</code></p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Direct Mode</h3>
+          <p>Run downloads directly as <code>yt-grab &lt;url&gt;</code> without learning subcommands.</p>
+        </article>
+        <article class="card">
+          <h3>Audio Output</h3>
+          <p>Use <code>--audio</code> and optional <code>--audio-format</code> for mp3, aac, or wav.</p>
+        </article>
+        <article class="card">
+          <h3>Quality Flags</h3>
+          <p>Set <code>--quality best|worst|720p|1080p</code> for quick control over output quality.</p>
+        </article>
+        <article class="card">
+          <h3>Cross Platform</h3>
+          <p>Works on Linux, macOS, and Windows PowerShell with clear command examples.</p>
+        </article>
+      </div>
+
+      <div class="meta">
+        <span>Status: ✅ Ready</span>
+        <span>Built for YtGrab frontend</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

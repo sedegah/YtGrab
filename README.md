@@ -24,15 +24,56 @@ It delegates extraction to `yt-dlp` and focuses on a clean command interface, re
 go build -o yt-grab ./cmd/yt-grab
 ```
 
+## Django Frontend
+
+A Django landing page is available in [frontend/](frontend/) and styled to match the referenced hero-card design.
+
+### Run locally
+
+```bash
+cd frontend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+Open `http://127.0.0.1:8000/`.
+
+### Windows (PowerShell)
+
+PowerShell does not run executables from the current folder unless you prefix with `./` (or `\.\`).
+
+```powershell
+go build -o yt-grab.exe ./cmd/yt-grab
+.\yt-grab.exe --help
+```
+
+To use `yt-grab` directly without `\.\`, install it to a folder in `PATH` (for example `$env:USERPROFILE\go\bin`).
+
 ## Usage
+
+```bash
+yt-grab [--config ~/.ytgrab.yaml] <url> [--audio] [--quality best|worst|720p|1080p] [--output DIR]
+```
+
+Also supported:
 
 ```bash
 yt-grab [--config ~/.ytgrab.yaml] <command> [flags]
 ```
 
+### Quick examples
+
+- `yt-grab https://youtu.be/8ekJMC8OtGU`
+- `yt-grab https://youtu.be/8ekJMC8OtGU --audio`
+- `yt-grab https://youtu.be/8ekJMC8OtGU --quality 1080p`
+- `yt-grab https://youtu.be/8ekJMC8OtGU --quality best --output ~/Downloads`
+
 ### Commands
 
-- `yt-grab grab <url> [--output DIR] [--format FORMAT] [--max-res 1080]`
+- `yt-grab grab <url> [--output DIR] [--format FORMAT] [--max-res 1080] [--quality best|worst|720p|1080p]`
 - `yt-grab audio <url> [--output DIR] [--format mp3|aac|wav]`
 - `yt-grab playlist <url> [--output DIR] [--flat]`
 - `yt-grab config init|view`

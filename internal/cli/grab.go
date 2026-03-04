@@ -14,6 +14,7 @@ func runGrab(cfg config.Config, args []string) error {
 	output := fs.String("output", "", "Output directory")
 	format := fs.String("format", "", "yt-dlp format selector")
 	maxRes := fs.Int("max-res", 0, "Maximum video resolution height")
+	quality := fs.String("quality", "", "Video quality: best|worst|720p|1080p")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
@@ -25,7 +26,25 @@ func runGrab(cfg config.Config, args []string) error {
 	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
 		return errors.New("url must start with http:// or https://")
 	}
-	return runner.Run(runner.Request{URL: url, OutputDir: choose(*output, cfg.OutputDir), Format: choose(*format, cfg.Format), MaxResolution: chooseInt(*maxRes, cfg.MaxResolution), YtDLPPath: cfg.YtDLPPath, NoPlaylist: true})
+	selectedFormat := choose(*format, cfg.Format)
+	selectedMaxRes := chooseInt(*maxRes, cfg.MaxResolution)
+	if *quality != "" {
+		if *format != "" {
+			return errors.New("use either --format or --quality, not both")
+		}
+		qFormat, qMaxRes, err := qualityToFormat(*quality)
+		if err != nil {
+			return err
+		}
+		if qFormat != "" {
+			selectedFormat = qFormat
+			selectedMaxRes = 0
+		}
+		if qMaxRes > 0 {
+			selectedMaxRes = qMaxRes
+		}
+	}
+	return runner.Run(runner.Request{URL: url, OutputDir: choose(*output, cfg.OutputDir), Format: selectedFormat, MaxResolution: selectedMaxRes, YtDLPPath: cfg.YtDLPPath, NoPlaylist: true})
 }
 
 func choose(v, fallback string) string {

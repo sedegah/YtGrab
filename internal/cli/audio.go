@@ -25,8 +25,8 @@ func runAudio(cfg config.Config, args []string) error {
 		return errors.New("url must start with http:// or https://")
 	}
 	f := choose(*format, cfg.AudioFormat)
-	if f != "mp3" && f != "aac" && f != "wav" {
-		return errors.New("audio format must be one of: mp3, aac, wav")
+	if err := validateAudioFormat(f); err != nil {
+		return err
 	}
 	return runner.Run(runner.Request{URL: url, OutputDir: choose(*output, cfg.OutputDir), AudioOnly: true, AudioFormat: f, YtDLPPath: cfg.YtDLPPath, NoPlaylist: true})
 }

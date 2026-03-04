@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 
 	"yt-grab/internal/config"
 )
@@ -33,6 +34,10 @@ func Execute() error {
 		return err
 	}
 
+	if isURL(args[0]) {
+		return runDirect(cfg, args)
+	}
+
 	switch args[0] {
 	case "grab":
 		return runGrab(cfg, args[1:])
@@ -57,6 +62,10 @@ func Execute() error {
 
 func printUsage() {
 	fmt.Println("yt-grab - A Go-based media downloader and automation CLI")
-	fmt.Println("\nUsage:\n  yt-grab [--config path] <command> [flags] <url>")
+	fmt.Println("\nQuick usage:\n  yt-grab [--config path] <url> [--audio] [--quality best|worst|720p|1080p] [--output DIR]")
 	fmt.Println("\nCommands:\n  grab      Download a single video\n  audio     Extract audio only\n  playlist  Download playlist\n  config    Manage config (init|view)\n  doctor    Check yt-dlp and ffmpeg\n  version   Print version")
+}
+
+func isURL(v string) bool {
+	return strings.HasPrefix(v, "http://") || strings.HasPrefix(v, "https://")
 }
