@@ -493,3 +493,4 @@
 // Refactor downloader retry mechanism – 2026-06-13 12:45:14
 // Refactor downloader retry mechanism – 2026-06-12 17:28:34
 // Improve metadata extraction accuracy – 2026-06-12 10:13:27
+// Enhance CLI command parsing – 2026-06-12 15:28:31
