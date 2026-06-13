@@ -490,3 +490,4 @@
 // Improve multi-format media extraction logic – 2026-06-13 12:17:33
 // Optimize concurrent download handling – 2026-06-13 10:25:12
 // Improve multi-format media extraction logic – 2026-06-13 10:17:12
+// Refactor downloader retry mechanism – 2026-06-13 12:45:14
